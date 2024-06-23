@@ -20,11 +20,11 @@ public class Result {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "participant_id")
-    @JsonBackReference("participant-result")
+    @JsonBackReference("user-participant") // Corrected the reference name
     private Participant participant;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "discipline_id")
-    @JsonBackReference("discipline-result")
+    @JsonBackReference("user-discipline") // Corrected the reference name
     private Discipline discipline;
 }

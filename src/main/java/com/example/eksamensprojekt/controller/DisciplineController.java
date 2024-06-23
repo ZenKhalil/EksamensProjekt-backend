@@ -24,12 +24,14 @@ public class DisciplineController {
         return ResponseEntity.ok(savedDiscipline);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or @userSecurity.isOwnerDiscipline(#id)")
     @PutMapping("/{id}")
     public ResponseEntity<DisciplineDto> updateDiscipline(@PathVariable Long id, @RequestBody DisciplineDto disciplineDto) {
         DisciplineDto updatedDiscipline = service.updateDiscipline(id, disciplineDto);
         return ResponseEntity.ok(updatedDiscipline);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or @userSecurity.isOwnerDiscipline(#id)")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDiscipline(@PathVariable Long id) {
         service.deleteDiscipline(id);

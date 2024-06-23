@@ -25,7 +25,7 @@ public class Discipline {
     @JsonBackReference("user-discipline")
     private User user;
 
-    @OneToMany(mappedBy = "discipline")
+    @OneToMany(mappedBy = "discipline", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference("discipline-result")
     private Set<Result> results;
 }

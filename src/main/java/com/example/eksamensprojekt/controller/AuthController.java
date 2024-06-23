@@ -1,18 +1,22 @@
 package com.example.eksamensprojekt.controller;
 
+import com.example.eksamensprojekt.model.Role;
 import com.example.eksamensprojekt.model.User;
+import com.example.eksamensprojekt.repository.RoleRepository;
 import com.example.eksamensprojekt.repository.UserRepository;
 import com.example.eksamensprojekt.security.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collections;
+import java.util.HashSet;
 
 @RestController
 @RequestMapping("/api")
@@ -23,6 +27,7 @@ public class AuthController {
     private final UserDetailsService userDetailsService;
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder; // Ensure this bean is available
 
     @PostMapping("/login")
@@ -47,7 +52,8 @@ public class AuthController {
             return ResponseEntity.status(400).body("Username already exists");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("USER"); // Assign 'USER' role by default
+        Role userRole = roleRepository.findByName("USER");
+        user.setRoles(new HashSet<>(Collections.singletonList(userRole)));
         userRepository.save(user);
         return ResponseEntity.ok("User registered successfully");
     }

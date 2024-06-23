@@ -18,7 +18,6 @@ public class ParticipantController {
         this.service = service;
     }
 
-
     @PostMapping
     public ResponseEntity<ParticipantDto> createParticipant(@RequestBody ParticipantDto participantDto) {
         ParticipantDto savedParticipant = service.createParticipant(participantDto);
