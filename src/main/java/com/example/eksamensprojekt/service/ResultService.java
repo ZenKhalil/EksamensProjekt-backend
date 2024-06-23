@@ -28,7 +28,7 @@ public class ResultService {
         this.userSecurity = userSecurity;
     }
 
-    @PreAuthorize("hasRole('USER')")
+
     public ResultDto createResult(ResultDto resultDto) {
         Result result = resultDto.toModel();
         if (resultDto.getParticipantId() != null) {

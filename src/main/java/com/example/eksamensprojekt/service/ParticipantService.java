@@ -28,7 +28,7 @@ public class ParticipantService {
         this.userSecurity = userSecurity;
     }
 
-    @PreAuthorize("hasRole('USER')")
+
     public ParticipantDto createParticipant(ParticipantDto participantDto) {
         Participant participant = participantDto.toModel();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

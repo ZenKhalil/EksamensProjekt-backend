@@ -25,7 +25,6 @@ public class DisciplineService {
         this.userRepository = userRepository;
     }
 
-    @PreAuthorize("hasRole('USER')")
     public DisciplineDto createDiscipline(DisciplineDto disciplineDto) {
         Discipline discipline = disciplineDto.toModel();
 
