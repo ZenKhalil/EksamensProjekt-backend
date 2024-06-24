@@ -17,12 +17,14 @@ public class DisciplineDto {
     private Long id;
     private String name;
     private String resultType;
+    private String username;
     private Set<Long> resultIds; // Only IDs to avoid deep nesting
 
     public DisciplineDto(Discipline discipline) {
         this.id = discipline.getId();
         this.name = discipline.getName();
         this.resultType = discipline.getResultType();
+        this.username = discipline.getUser() != null ? discipline.getUser().getUsername() : null;
         this.resultIds = discipline.getResults() != null ? discipline.getResults().stream().map(result -> result.getId()).collect(Collectors.toSet()) : null;
     }
 
