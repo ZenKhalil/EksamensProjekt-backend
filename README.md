@@ -50,7 +50,7 @@ SPRING_DATASOURCE_USERNAME=your_db_username
 SPRING_DATASOURCE_PASSWORD=your_db_password
 SPRING_JPA_HIBERNATE_DDL_AUTO=update
 JWT_SECRET=your_jwt_secret
-
+```
 ##Running the Application
 
 To run the application, use the following command:
