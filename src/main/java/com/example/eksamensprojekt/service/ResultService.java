@@ -5,6 +5,7 @@ import com.example.eksamensprojekt.model.Result;
 import com.example.eksamensprojekt.repository.ParticipantRepository;
 import com.example.eksamensprojekt.repository.ResultRepository;
 import com.example.eksamensprojekt.repository.DisciplineRepository;
+import com.example.eksamensprojekt.security.UserSecurity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +19,16 @@ public class ResultService {
     private final ResultRepository resultRepository;
     private final ParticipantRepository participantRepository;
     private final DisciplineRepository disciplineRepository;
+    private final UserSecurity userSecurity;
 
-    public ResultService(ResultRepository resultRepository, ParticipantRepository participantRepository, DisciplineRepository disciplineRepository) {
+    public ResultService(ResultRepository resultRepository, ParticipantRepository participantRepository, DisciplineRepository disciplineRepository, UserSecurity userSecurity) {
         this.resultRepository = resultRepository;
         this.participantRepository = participantRepository;
         this.disciplineRepository = disciplineRepository;
+        this.userSecurity = userSecurity;
     }
 
-    @PreAuthorize("hasRole('USER')")
+
     public ResultDto createResult(ResultDto resultDto) {
         Result result = resultDto.toModel();
         if (resultDto.getParticipantId() != null) {
@@ -40,7 +43,7 @@ public class ResultService {
         return new ResultDto(savedResult);
     }
 
-    @PreAuthorize("hasRole('ADMIN') or @userSecurity.isOwner(#id)")
+    @PreAuthorize("hasRole('ADMIN') or @userSecurity.isOwnerResult(#id)")
     public ResultDto updateResult(Long id, ResultDto resultDto) {
         Optional<Result> existingResultOpt = resultRepository.findById(id);
         if (existingResultOpt.isPresent()) {
@@ -63,7 +66,7 @@ public class ResultService {
         }
     }
 
-    @PreAuthorize("hasRole('ADMIN') or @userSecurity.isOwner(#id)")
+    @PreAuthorize("hasRole('ADMIN') or @userSecurity.isOwnerResult(#id)")
     public void deleteResult(Long id) {
         if (resultRepository.existsById(id)) {
             resultRepository.deleteById(id);

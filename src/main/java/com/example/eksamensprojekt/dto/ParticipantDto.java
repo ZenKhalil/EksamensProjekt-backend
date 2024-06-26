@@ -21,6 +21,7 @@ public class ParticipantDto {
     private String club;
     private String username;
     private Set<Long> resultIds;
+    private Set<String> disciplines;
 
     public ParticipantDto(Participant participant) {
         this.id = participant.getId();
@@ -30,6 +31,7 @@ public class ParticipantDto {
         this.club = participant.getClub();
         this.username = participant.getUser() != null ? participant.getUser().getUsername() : null;
         this.resultIds = participant.getResults() != null ? participant.getResults().stream().map(result -> result.getId()).collect(Collectors.toSet()) : null;
+        this.disciplines = participant.getResults() != null ? participant.getResults().stream().map(result -> result.getDiscipline().getName()).collect(Collectors.toSet()) : null;
     }
 
     public Participant toModel() {

@@ -5,6 +5,8 @@ import com.example.eksamensprojekt.model.Participant;
 import com.example.eksamensprojekt.model.User;
 import com.example.eksamensprojekt.repository.ParticipantRepository;
 import com.example.eksamensprojekt.repository.UserRepository;
+import com.example.eksamensprojekt.security.UserSecurity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -18,11 +20,14 @@ public class ParticipantService {
 
     private final ParticipantRepository repository;
     private final UserRepository userRepository;
+    private final UserSecurity userSecurity;
 
-    public ParticipantService(ParticipantRepository repository, UserRepository userRepository) {
+    public ParticipantService(ParticipantRepository repository, UserRepository userRepository, UserSecurity userSecurity) {
         this.repository = repository;
         this.userRepository = userRepository;
+        this.userSecurity = userSecurity;
     }
+
 
     public ParticipantDto createParticipant(ParticipantDto participantDto) {
         Participant participant = participantDto.toModel();
@@ -35,6 +40,7 @@ public class ParticipantService {
         return new ParticipantDto(savedParticipant);
     }
 
+    @PreAuthorize("hasRole('ADMIN') or @userSecurity.isOwnerParticipant(#id)")
     public ParticipantDto updateParticipant(Long id, ParticipantDto participantDto) {
         Optional<Participant> existingParticipantOpt = repository.findById(id);
         if (existingParticipantOpt.isPresent()) {
@@ -50,6 +56,7 @@ public class ParticipantService {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN') or @userSecurity.isOwnerParticipant(#id)")
     public void deleteParticipant(Long id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);

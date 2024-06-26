@@ -2,11 +2,11 @@ package com.example.eksamensprojekt.dto;
 
 public class UserDto {
     private String username;
-    private String role;
+    private String roles;
 
-    public UserDto(String username, String role) {
+    public UserDto(String username, String roles) {
         this.username = username;
-        this.role = role;
+        this.roles = roles;
     }
 
     // Getters and Setters
@@ -18,11 +18,11 @@ public class UserDto {
         this.username = username;
     }
 
-    public String getRole() {
-        return role;
+    public String getRoles() {
+        return roles;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 }
