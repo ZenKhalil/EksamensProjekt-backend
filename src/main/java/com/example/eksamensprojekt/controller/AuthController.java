@@ -47,13 +47,15 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody User user) {
-        if (userRepository.findByUsername(user.getUsername()) != null) {
+    public ResponseEntity<?> signup(@RequestBody AuthRequest authRequest) {
+        if (userRepository.findByUsername(authRequest.getUsername()) != null) {
             return ResponseEntity.status(400).body("Username already exists");
         }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        User user = new User();
+        user.setUsername(authRequest.getUsername());
+        user.setPassword(passwordEncoder.encode(authRequest.getPassword()));
         Role userRole = roleRepository.findByName("USER");
-        user.setRoles(new HashSet<>(Collections.singletonList(userRole)));
+        user.setRoles(new HashSet<>(Collections.singleton(userRole)));
         userRepository.save(user);
         return ResponseEntity.ok("User registered successfully");
     }

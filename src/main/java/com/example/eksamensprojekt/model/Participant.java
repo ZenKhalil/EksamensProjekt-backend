@@ -26,6 +26,6 @@ public class Participant {
     private User user;
 
     @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonManagedReference("participant-results")
     private Set<Result> results;
 }
